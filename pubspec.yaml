@@ -13,6 +13,7 @@ dependencies:
   cupertino_icons: ^1.0.6
 
   collection:
+  uuid:
   rxdart:
   flutter_hooks:
   hooks_riverpod:
@@ -20,6 +21,8 @@ dependencies:
   freezed:
   freezed_annotation:
   json_annotation:
+
+  shared_preferences:
 
   gap:
   sliver_tools:
