@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_architecture_blueprint/core/data/repository/todo/todo_repository.dart';
 import 'package:flutter_architecture_blueprint/core/model/user_task.dart';
