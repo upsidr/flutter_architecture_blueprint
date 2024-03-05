@@ -22,7 +22,7 @@ class EditTaskUseCase {
     assert(task.title != null);
     assert(task.description != null);
     try {
-      _todoRepository.addTask(task: task.toUserTask());
+      await _todoRepository.addTask(task: task.toUserTask());
     } on todo_repository.Other catch (_) {
       throw EditTaskUseCaseException.alert(state: _sampleErrorState());
     }
@@ -31,7 +31,7 @@ class EditTaskUseCase {
   Future<void> toggleIsCompleted(EditableUserTask task) async {
     final taskUpdated = task.copyWith(isCompleted: !task.isCompleted);
     try {
-      _todoRepository.updateTask(task: taskUpdated.toUserTask());
+      await _todoRepository.updateTask(task: taskUpdated.toUserTask());
     } on todo_repository.TaskNotFound catch (_) {
       throw EditTaskUseCaseException.alert(state: _itemNotFoundState());
     } on todo_repository.Other catch (_) {
@@ -41,7 +41,7 @@ class EditTaskUseCase {
 
   Future<void> deleteTask({required String id}) async {
     try {
-      _todoRepository.removeTask(id: id);
+      await _todoRepository.removeTask(id: id);
     } on todo_repository.TaskNotFound catch (_) {
       throw EditTaskUseCaseException.alert(state: _itemNotFoundState());
     } on todo_repository.Other catch (_) {
