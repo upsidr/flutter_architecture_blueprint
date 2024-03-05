@@ -1,7 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_architecture_blueprint/core/data/repository/todo/fake_todo_repository.dart';
+import 'package:flutter_architecture_blueprint/core/data/repository/todo/todo_repository_impl.dart';
+import 'package:flutter_architecture_blueprint/core/model/user_task.dart';
+import 'package:flutter_architecture_blueprint/feature/todo/task_list/task_list_page.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:rxdart/rxdart.dart';
+import 'package:uuid/uuid.dart';
 
 void main() {
-  runApp(const MyApp());
+  const uuid = Uuid();
+  final fakeState = BehaviorSubject.seeded(const FakeTodoRepositoryState());
+  final todoRepository = FakeTodoRepository.from(fakeState);
+  todoRepository.handler.fetchTaskList = () async {
+    fakeState.add(fakeState.value.copyWith(taskList: [
+      UserTask(id: uuid.v4(), title: 'title1', createdAt: DateTime(2024, 3, 3)),
+      UserTask(id: uuid.v4(), title: 'title2', createdAt: DateTime(2024, 3, 4)),
+      UserTask(id: uuid.v4(), title: 'title3', createdAt: DateTime(2024, 3, 5)),
+    ]));
+  };
+
+  runApp(ProviderScope(
+    overrides: [
+      todoRepositoryProvider.overrideWithValue(todoRepository),
+    ],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -10,60 +33,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+      home: const TaskListPage(),
     );
   }
 }
