@@ -20,7 +20,7 @@ class UserTask with _$UserTask {
 }
 
 extension UserTaskListEx on List<UserTask> {
-  List<UserTask> appending(UserTask task) => this..add(task);
+  List<UserTask> appending(UserTask task) => [...this, task];
 
   List<UserTask> replaced(UserTask task) =>
       map((t) => t.id == task.id ? task : t).toList();

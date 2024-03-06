@@ -1,5 +1,7 @@
+import 'package:clock/clock.dart';
 import 'package:flutter_architecture_blueprint/core/model/user_task.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:uuid/uuid.dart';
 
 part 'editable_user_task.freezed.dart';
 
@@ -13,6 +15,8 @@ class EditableUserTask with _$EditableUserTask {
     DateTime? createdAt,
     DateTime? updatedAt,
   }) = _EditableUserTask;
+
+  factory EditableUserTask.create() => EditableUserTask(id: const Uuid().v4());
 }
 
 extension UserTaskConverterEx on UserTask {
@@ -32,7 +36,7 @@ extension EditableUserTaskConverterEx on EditableUserTask {
         title: title ?? '',
         description: description ?? '',
         isCompleted: isCompleted,
-        createdAt: createdAt ?? DateTime.now(),
+        createdAt: createdAt ?? clock.now(),
         updatedAt: updatedAt,
       );
 }
