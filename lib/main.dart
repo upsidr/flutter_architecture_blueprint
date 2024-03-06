@@ -4,10 +4,15 @@ import 'package:flutter_architecture_blueprint/core/data/repository/todo/todo_re
 import 'package:flutter_architecture_blueprint/core/model/user_task.dart';
 import 'package:flutter_architecture_blueprint/feature/todo/task_list/task_list_page.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
-void main() {
+Future<void> main() async {
+  await initializeDateFormatting();
+  Intl.defaultLocale = 'ja_JP';
+
   const uuid = Uuid();
   final fakeState = BehaviorSubject.seeded(const FakeTodoRepositoryState());
   final todoRepository = FakeTodoRepository.from(fakeState);
