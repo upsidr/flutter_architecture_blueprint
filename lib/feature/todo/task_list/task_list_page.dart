@@ -35,6 +35,11 @@ class TaskListPage extends HookConsumerWidget with AlertStateCompatible {
         centerTitle: true,
       ),
       body: const _TaskListBody(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () =>
+            ref.notifier.send(const TaskListAction.newTaskButtonTapped()),
+        child: const Icon(Icons.add),
+      ),
     );
   }
 

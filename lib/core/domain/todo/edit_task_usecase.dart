@@ -20,7 +20,6 @@ class EditTaskUseCase {
 
   Future<void> addTask(EditableUserTask task) async {
     assert(task.title != null);
-    assert(task.description != null);
     try {
       await _todoRepository.addTask(task: task.toUserTask());
     } on todo_repository.Other catch (_) {
@@ -29,6 +28,7 @@ class EditTaskUseCase {
   }
 
   Future<void> updateTask(EditableUserTask task) async {
+    assert(task.title != null);
     try {
       await _todoRepository.updateTask(task: task.toUserTask());
     } on todo_repository.TaskNotFound catch (_) {
