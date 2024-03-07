@@ -1,4 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_architecture_blueprint/core/domain/model/editable_user_task.dart';
 import 'package:flutter_architecture_blueprint/core/util/alert_state.dart';
 import 'package:flutter_architecture_blueprint/core/util/datetime_formatted.dart';
 import 'package:flutter_architecture_blueprint/feature/todo/edit_task/edit_task_contract.dart';
@@ -12,22 +14,49 @@ import 'package:sliver_tools/sliver_tools.dart';
 import 'ui_components/toggle_complete_button.dart';
 
 extension _EditTaskEx on WidgetRef {
+  EditTaskNotifierProvider get notifierProvider {
+    final task = watch(editTaskArgsProvider);
+    return editTaskNotifierProvider(task);
+  }
+
   EditTaskNotifier get notifier {
     final task = read(editTaskArgsProvider);
     return read(editTaskNotifierProvider(task).notifier);
   }
 }
 
-class EditTaskPage extends HookConsumerWidget with AlertStateCompatible {
-  const EditTaskPage({super.key});
+@RoutePage()
+class EditTaskPage extends StatelessWidget {
+  const EditTaskPage({
+    super.key,
+    required this.task,
+  });
+
+  final EditableUserTask? task;
+
+  @override
+  Widget build(BuildContext context) {
+    return ProviderScope(
+      overrides: [
+        editTaskArgsProvider
+            .overrideWith((ref) => task ?? EditableUserTask.create()),
+      ],
+      child: const _EditTaskPage(),
+    );
+  }
+}
+
+class _EditTaskPage extends HookConsumerWidget with AlertStateCompatible {
+  const _EditTaskPage();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final argument = ref.watch(editTaskArgsProvider);
     final isNewTask = ref.watch(
-        editTaskNotifierProvider(argument).select((value) => value.isNewTask));
-    final isSubmitButtonEnabled = ref.watch(editTaskNotifierProvider(argument)
-        .select((value) => value.isSubmitButtonEnabled));
+      ref.notifierProvider.select((value) => value.isNewTask),
+    );
+    final isSubmitButtonEnabled = ref.watch(
+      ref.notifierProvider.select((value) => value.isSubmitButtonEnabled),
+    );
 
     ref.listen(editTaskEffectProvider,
         (_, effect) => handleEffect(context, ref, effect: effect));
@@ -80,7 +109,7 @@ class EditTaskPage extends HookConsumerWidget with AlertStateCompatible {
         break;
       case Close():
         ref.notifier.consume();
-        Navigator.pop(context);
+        context.router.back();
       case ShowAlert():
         ref.notifier.consume();
         handleAlertState(context, effect.state);
@@ -93,9 +122,7 @@ class _EditTaskBody extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final argument = ref.watch(editTaskArgsProvider);
-    final item = ref.watch(
-        editTaskNotifierProvider(argument).select((value) => value.item));
+    final item = ref.watch(ref.notifierProvider.select((value) => value.item));
 
     final titleEditingController = useTextEditingController(text: item.title);
     final descriptionEditingController =
