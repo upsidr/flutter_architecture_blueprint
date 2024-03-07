@@ -16,10 +16,31 @@ void main() {
   late BehaviorSubject<FakeTodoRepositoryState> fakeTodoState;
   late FakeTodoRepository todoRepository;
   late ProviderContainer container;
-  notifierProvider() =>
-      editTaskNotifierProvider(container.read(editTaskArgsProvider));
-  uiState() => container.read(notifierProvider());
-  effect() => container.read(editTaskEffectProvider);
+  buildAccessors({
+    required EditableUserTask? argument,
+  }) {
+    if (argument != null) {
+      fakeTodoState
+          .add(fakeTodoState.value.copyWith(taskList: [argument.toUserTask()]));
+    }
+    container = ProviderContainer(overrides: [
+      todoRepositoryProvider.overrideWithValue(todoRepository),
+      editTaskArgsProvider
+          .overrideWith((ref) => argument ?? EditableUserTask.create()),
+    ]);
+
+    final notifierProvider =
+        editTaskNotifierProvider(container.read(editTaskArgsProvider));
+    final uiStateSubscription =
+        container.listen(notifierProvider, (previous, next) {});
+    addTearDown(uiStateSubscription.close);
+
+    return (
+      container.read(notifierProvider.notifier),
+      () => container.read(notifierProvider),
+      () => container.read(editTaskEffectProvider),
+    );
+  }
 
   final sampleEditableTask = EditableUserTask.create().copyWith(
     title: 'title1',
@@ -37,36 +58,16 @@ void main() {
     container.dispose();
   });
 
-  void buildContainer({
-    required EditableUserTask? argument,
-  }) {
-    if (argument != null) {
-      fakeTodoState
-          .add(fakeTodoState.value.copyWith(taskList: [argument.toUserTask()]));
-    }
-    container = ProviderContainer(overrides: [
-      todoRepositoryProvider.overrideWithValue(todoRepository),
-      editTaskArgsProvider
-          .overrideWith((ref) => argument ?? EditableUserTask.create()),
-    ]);
-  }
-
   group('Initial State', () {
     test('Cannot add new task', () async {
-      buildContainer(argument: null);
-      final uiStateSubscription =
-          container.listen(notifierProvider(), (previous, next) {});
-      addTearDown(uiStateSubscription.close);
+      final (_, uiState, _) = buildAccessors(argument: null);
 
       expect(uiState().isNewTask, true);
       expect(uiState().isSubmitButtonEnabled, false);
     });
 
     test('Can update a task exists', () async {
-      buildContainer(argument: sampleEditableTask);
-      final uiStateSubscription =
-          container.listen(notifierProvider(), (previous, next) {});
-      addTearDown(uiStateSubscription.close);
+      final (_, uiState, _) = buildAccessors(argument: sampleEditableTask);
 
       expect(uiState().isNewTask, false);
       expect(uiState().isSubmitButtonEnabled, true);
@@ -75,11 +76,7 @@ void main() {
 
   group('Modify Task', () {
     test('Edit title, description, isCompleted for new task', () async {
-      buildContainer(argument: null);
-      final notifier = container.read(notifierProvider().notifier);
-      final uiStateSubscription =
-          container.listen(notifierProvider(), (previous, next) {});
-      addTearDown(uiStateSubscription.close);
+      final (notifier, uiState, _) = buildAccessors(argument: null);
 
       expect(uiState().isNewTask, true);
       expect(uiState().isSubmitButtonEnabled, false);
@@ -87,31 +84,29 @@ void main() {
       // title
 
       const title = 'title in test';
-      notifier.send(const EditTaskAction.onTitleChanged(title));
+      await notifier.send(const EditTaskAction.onTitleChanged(title));
       expect(uiState().item.title, title);
       expect(uiState().isSubmitButtonEnabled, true);
 
       // description
 
       const description = 'description in test';
-      notifier.send(const EditTaskAction.onDescriptionChanged(description));
+      await notifier
+          .send(const EditTaskAction.onDescriptionChanged(description));
       expect(uiState().item.description, description);
 
       // isCompleted
 
       expect(uiState().item.isCompleted, false);
-      notifier.send(const EditTaskAction.completeButtonTapped());
+      await notifier.send(const EditTaskAction.completeButtonTapped());
       expect(uiState().item.isCompleted, true);
-      notifier.send(const EditTaskAction.uncompleteButtonTapped());
+      await notifier.send(const EditTaskAction.uncompleteButtonTapped());
       expect(uiState().item.isCompleted, false);
     });
 
     test('Edit title, description, isCompleted for a task exists', () async {
-      buildContainer(argument: sampleEditableTask);
-      final notifier = container.read(notifierProvider().notifier);
-      final uiStateSubscription =
-          container.listen(notifierProvider(), (previous, next) {});
-      addTearDown(uiStateSubscription.close);
+      final (notifier, uiState, _) =
+          buildAccessors(argument: sampleEditableTask);
 
       expect(uiState().isNewTask, false);
       expect(uiState().isSubmitButtonEnabled, true);
@@ -119,31 +114,29 @@ void main() {
       // title
 
       const title = 'title in test';
-      notifier.send(const EditTaskAction.onTitleChanged(title));
+      await notifier.send(const EditTaskAction.onTitleChanged(title));
       expect(uiState().item.title, title);
       expect(uiState().isSubmitButtonEnabled, true);
 
       // description
 
       const description = 'description in test';
-      notifier.send(const EditTaskAction.onDescriptionChanged(description));
+      await notifier
+          .send(const EditTaskAction.onDescriptionChanged(description));
       expect(uiState().item.description, description);
 
       // isCompleted
 
       expect(uiState().item.isCompleted, false);
-      notifier.send(const EditTaskAction.completeButtonTapped());
+      await notifier.send(const EditTaskAction.completeButtonTapped());
       expect(uiState().item.isCompleted, true);
-      notifier.send(const EditTaskAction.uncompleteButtonTapped());
+      await notifier.send(const EditTaskAction.uncompleteButtonTapped());
       expect(uiState().item.isCompleted, false);
     });
 
     test('Delete a task exists', () async {
-      buildContainer(argument: sampleEditableTask);
-      final notifier = container.read(notifierProvider().notifier);
-      final uiStateSubscription =
-          container.listen(notifierProvider(), (previous, next) {});
-      addTearDown(uiStateSubscription.close);
+      final (notifier, uiState, effect) =
+          buildAccessors(argument: sampleEditableTask);
 
       expect(uiState().isNewTask, false);
       expect(uiState().isSubmitButtonEnabled, true);
@@ -153,8 +146,7 @@ void main() {
         false,
       );
 
-      notifier.send(const EditTaskAction.deleteButtonTapped());
-      await container.pump();
+      await notifier.send(const EditTaskAction.deleteButtonTapped());
       expect(effect(), const EditTaskEffect.close());
       expect(
         todoRepository.fakeState.value.taskList
@@ -165,11 +157,7 @@ void main() {
 
     test('Request Add new task', () {
       fakeAsync((fakeAsync) {
-        buildContainer(argument: null);
-        final notifier = container.read(notifierProvider().notifier);
-        final uiStateSubscription =
-            container.listen(notifierProvider(), (previous, next) {});
-        addTearDown(uiStateSubscription.close);
+        final (notifier, uiState, effect) = buildAccessors(argument: null);
 
         expect(uiState().isNewTask, true);
         expect(uiState().isSubmitButtonEnabled, false);
@@ -193,11 +181,8 @@ void main() {
 
     test('Request Update a task exists', () {
       fakeAsync((fakeAsync) {
-        buildContainer(argument: sampleEditableTask);
-        final notifier = container.read(notifierProvider().notifier);
-        final uiStateSubscription =
-            container.listen(notifierProvider(), (previous, next) {});
-        addTearDown(uiStateSubscription.close);
+        final (notifier, uiState, effect) =
+            buildAccessors(argument: sampleEditableTask);
 
         expect(uiState().isNewTask, false);
         expect(uiState().isSubmitButtonEnabled, true);
@@ -222,16 +207,13 @@ void main() {
 
   group('Error handling', () {
     test('Handle errors for new task', () async {
-      buildContainer(argument: null);
-      final notifier = container.read(notifierProvider().notifier);
-      final uiStateSubscription =
-          container.listen(notifierProvider(), (previous, next) {});
-      addTearDown(uiStateSubscription.close);
+      final (notifier, uiState, effect) = buildAccessors(argument: null);
 
       const title = 'title in test';
       const description = 'description in test';
-      notifier.send(const EditTaskAction.onTitleChanged(title));
-      notifier.send(const EditTaskAction.onDescriptionChanged(description));
+      await notifier.send(const EditTaskAction.onTitleChanged(title));
+      await notifier
+          .send(const EditTaskAction.onDescriptionChanged(description));
       expect(uiState().item.title, title);
       expect(uiState().item.description, description);
 
@@ -241,8 +223,7 @@ void main() {
         throw TodoRepositoryException.other(Exception());
       };
 
-      notifier.send(const EditTaskAction.addButtonTapped());
-      await container.pump();
+      await notifier.send(const EditTaskAction.addButtonTapped());
       expect(
         effect(),
         const EditTaskEffect.showAlert(state: generalErrorAlertState),
@@ -250,19 +231,17 @@ void main() {
     });
 
     test('Handle errors for a task exists', () async {
-      buildContainer(argument: sampleEditableTask);
-      final notifier = container.read(notifierProvider().notifier);
-      final uiStateSubscription =
-          container.listen(notifierProvider(), (previous, next) {});
-      addTearDown(uiStateSubscription.close);
+      final (notifier, uiState, effect) =
+          buildAccessors(argument: sampleEditableTask);
 
       expect(uiState().isNewTask, false);
       expect(uiState().isSubmitButtonEnabled, true);
 
       const title = 'title in test';
       const description = 'description in test';
-      notifier.send(const EditTaskAction.onTitleChanged(title));
-      notifier.send(const EditTaskAction.onDescriptionChanged(description));
+      await notifier.send(const EditTaskAction.onTitleChanged(title));
+      await notifier
+          .send(const EditTaskAction.onDescriptionChanged(description));
       expect(uiState().item.title, title);
       expect(uiState().item.description, description);
 
@@ -272,8 +251,7 @@ void main() {
         throw const TodoRepositoryException.taskNotFound();
       };
 
-      notifier.send(const EditTaskAction.updateButtonTapped());
-      await container.pump();
+      await notifier.send(const EditTaskAction.updateButtonTapped());
       expect(
         effect(),
         const EditTaskEffect.showAlert(state: notFoundAlertState),
@@ -286,8 +264,7 @@ void main() {
         throw TodoRepositoryException.other(Exception());
       };
 
-      notifier.send(const EditTaskAction.updateButtonTapped());
-      await container.pump();
+      await notifier.send(const EditTaskAction.updateButtonTapped());
       expect(
         effect(),
         const EditTaskEffect.showAlert(state: generalErrorAlertState),

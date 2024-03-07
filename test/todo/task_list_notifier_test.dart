@@ -16,8 +16,16 @@ void main() {
   late BehaviorSubject<FakeTodoRepositoryState> fakeTodoState;
   late FakeTodoRepository todoRepository;
   late ProviderContainer container;
-  uiState() => container.read(taskListNotifierProvider);
-  effect() => container.read(taskListEffectProvider);
+  buildAccessors() {
+    final uiStateSubscription =
+        container.listen(taskListNotifierProvider, (previous, next) {});
+    addTearDown(uiStateSubscription.close);
+    return (
+      container.read(taskListNotifierProvider.notifier),
+      () => container.read(taskListNotifierProvider),
+      () => container.read(taskListEffectProvider),
+    );
+  }
 
   const uuid = Uuid();
 
@@ -46,26 +54,18 @@ void main() {
 
   group('Fetch task list', () {
     test('When OnAppear, fetched empty task list', () async {
-      final notifier = container.read(taskListNotifierProvider.notifier);
-      final uiStateSubscription =
-          container.listen(taskListNotifierProvider, (previous, next) {});
-      addTearDown(uiStateSubscription.close);
+      final (notifier, uiState, _) = buildAccessors();
 
       todoRepository.handler.fetchTaskList = () async {};
 
-      notifier.send(const TaskListAction.onAppear());
-      await container.pump();
+      await notifier.send(const TaskListAction.onAppear());
       expect(uiState().taskList.isEmpty, true);
     });
 
     test('When OnAppear, fetched task list (sample list)', () async {
-      final notifier = container.read(taskListNotifierProvider.notifier);
-      final uiStateSubscription =
-          container.listen(taskListNotifierProvider, (previous, next) {});
-      addTearDown(uiStateSubscription.close);
+      final (notifier, uiState, _) = buildAccessors();
 
-      notifier.send(const TaskListAction.onAppear());
-      await container.pump();
+      await notifier.send(const TaskListAction.onAppear());
       expect(
         uiState().taskList,
         sampleTaskList.map((t) => t.toEditable()),
@@ -75,18 +75,14 @@ void main() {
 
   group('Navigation', () {
     test('Tap NewTaskButton, navigate detail', () async {
-      final notifier = container.read(taskListNotifierProvider.notifier);
-      final uiStateSubscription =
-          container.listen(taskListNotifierProvider, (previous, next) {});
-      addTearDown(uiStateSubscription.close);
+      final (notifier, uiState, effect) = buildAccessors();
 
       todoRepository.handler.fetchTaskList = () async {};
 
-      notifier.send(const TaskListAction.onAppear());
-      await container.pump();
+      await notifier.send(const TaskListAction.onAppear());
       expect(uiState().taskList.isEmpty, true);
 
-      notifier.send(const TaskListAction.newTaskButtonTapped());
+      await notifier.send(const TaskListAction.newTaskButtonTapped());
       expect(
         effect(),
         const TaskListEffect.goDetail(task: null),
@@ -94,20 +90,16 @@ void main() {
     });
 
     test('Tap a task, navigate detail', () async {
-      final notifier = container.read(taskListNotifierProvider.notifier);
-      final uiStateSubscription =
-          container.listen(taskListNotifierProvider, (previous, next) {});
-      addTearDown(uiStateSubscription.close);
+      final (notifier, uiState, effect) = buildAccessors();
 
-      notifier.send(const TaskListAction.onAppear());
-      await container.pump();
+      await notifier.send(const TaskListAction.onAppear());
       expect(
         uiState().taskList,
         sampleTaskList.map((t) => t.toEditable()),
       );
 
       final target = uiState().taskList.first;
-      notifier.send(TaskListAction.taskTapped(target));
+      await notifier.send(TaskListAction.taskTapped(target));
       expect(
         effect(),
         TaskListEffect.goDetail(task: target),
@@ -117,29 +109,23 @@ void main() {
 
   group('Modify Task', () {
     test('Tap ToggleButton, toggle isCompleted', () async {
-      final notifier = container.read(taskListNotifierProvider.notifier);
-      final uiStateSubscription =
-          container.listen(taskListNotifierProvider, (previous, next) {});
-      addTearDown(uiStateSubscription.close);
+      final (notifier, uiState, _) = buildAccessors();
 
-      notifier.send(const TaskListAction.onAppear());
-      await container.pump();
+      await notifier.send(const TaskListAction.onAppear());
       expect(
         uiState().taskList,
         sampleTaskList.map((t) => t.toEditable()),
       );
 
       final target = uiState().taskList.first;
-      notifier.send(TaskListAction.toggleIsCompleted(target));
-      await container.pump();
+      await notifier.send(TaskListAction.toggleIsCompleted(target));
       expect(
         uiState().taskList.first.isCompleted,
         !target.isCompleted,
       );
 
       final target2 = uiState().taskList.first;
-      notifier.send(TaskListAction.toggleIsCompleted(target2));
-      await container.pump();
+      await notifier.send(TaskListAction.toggleIsCompleted(target2));
       expect(
         uiState().taskList.first.isCompleted,
         !target2.isCompleted,
@@ -147,21 +133,16 @@ void main() {
     });
 
     test('Swipe a task, remove it', () async {
-      final notifier = container.read(taskListNotifierProvider.notifier);
-      final uiStateSubscription =
-          container.listen(taskListNotifierProvider, (previous, next) {});
-      addTearDown(uiStateSubscription.close);
+      final (notifier, uiState, _) = buildAccessors();
 
-      notifier.send(const TaskListAction.onAppear());
-      await container.pump();
+      await notifier.send(const TaskListAction.onAppear());
       expect(
         uiState().taskList,
         sampleTaskList.map((t) => t.toEditable()),
       );
 
       final target = uiState().taskList.first;
-      notifier.send(TaskListAction.onTaskSwiped(target));
-      await container.pump();
+      await notifier.send(TaskListAction.onTaskSwiped(target));
       expect(
         uiState().taskList.none((t) => t.id == target.id),
         true,
@@ -171,17 +152,13 @@ void main() {
 
   group('Error handling', () {
     test('Handle errors for fetch list', () async {
-      final notifier = container.read(taskListNotifierProvider.notifier);
-      final uiStateSubscription =
-          container.listen(taskListNotifierProvider, (previous, next) {});
-      addTearDown(uiStateSubscription.close);
+      final (notifier, uiState, effect) = buildAccessors();
 
       todoRepository.handler.fetchTaskList = () async {
         throw TodoRepositoryException.other(Exception());
       };
 
-      notifier.send(const TaskListAction.onAppear());
-      await container.pump();
+      await notifier.send(const TaskListAction.onAppear());
       expect(uiState().taskList.isEmpty, true);
       expect(
         effect(),
@@ -190,13 +167,9 @@ void main() {
     });
 
     test('Handle errors for toggle isCompleted', () async {
-      final notifier = container.read(taskListNotifierProvider.notifier);
-      final uiStateSubscription =
-          container.listen(taskListNotifierProvider, (previous, next) {});
-      addTearDown(uiStateSubscription.close);
+      final (notifier, uiState, effect) = buildAccessors();
 
-      notifier.send(const TaskListAction.onAppear());
-      await container.pump();
+      await notifier.send(const TaskListAction.onAppear());
       expect(
         uiState().taskList,
         sampleTaskList.map((t) => t.toEditable()),
@@ -209,8 +182,7 @@ void main() {
       };
 
       final taskNotFound = uiState().taskList.first.copyWith(id: uuid.v4());
-      notifier.send(TaskListAction.toggleIsCompleted(taskNotFound));
-      await container.pump();
+      await notifier.send(TaskListAction.toggleIsCompleted(taskNotFound));
       expect(
         effect(),
         const TaskListEffect.showAlert(state: notFoundAlertState),
@@ -224,8 +196,7 @@ void main() {
       };
 
       final target = uiState().taskList.first;
-      notifier.send(TaskListAction.toggleIsCompleted(target));
-      await container.pump();
+      await notifier.send(TaskListAction.toggleIsCompleted(target));
       expect(
         effect(),
         const TaskListEffect.showAlert(state: generalErrorAlertState),
@@ -233,13 +204,9 @@ void main() {
     });
 
     test('Handle errors for remove task', () async {
-      final notifier = container.read(taskListNotifierProvider.notifier);
-      final uiStateSubscription =
-          container.listen(taskListNotifierProvider, (previous, next) {});
-      addTearDown(uiStateSubscription.close);
+      final (notifier, uiState, effect) = buildAccessors();
 
-      notifier.send(const TaskListAction.onAppear());
-      await container.pump();
+      await notifier.send(const TaskListAction.onAppear());
       expect(
         uiState().taskList,
         sampleTaskList.map((t) => t.toEditable()),
@@ -252,8 +219,7 @@ void main() {
       };
 
       final target = uiState().taskList.first;
-      notifier.send(TaskListAction.onTaskSwiped(target));
-      await container.pump();
+      await notifier.send(TaskListAction.onTaskSwiped(target));
       expect(
         effect(),
         const TaskListEffect.showAlert(state: notFoundAlertState),
@@ -267,8 +233,7 @@ void main() {
       };
 
       final target2 = uiState().taskList.first;
-      notifier.send(TaskListAction.onTaskSwiped(target2));
-      await container.pump();
+      await notifier.send(TaskListAction.onTaskSwiped(target2));
       expect(
         effect(),
         const TaskListEffect.showAlert(state: generalErrorAlertState),
