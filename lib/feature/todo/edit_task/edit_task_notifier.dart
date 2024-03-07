@@ -62,6 +62,14 @@ class EditTaskNotifier extends _$EditTaskNotifier implements EditTaskContract {
         } on edit_task.Alert catch (e) {
           _updateEffect(EditTaskEffect.showAlert(state: e.state));
         }
+      case DeleteButtonTapped():
+        assert(!state.isNewTask);
+        try {
+          await _editTaskUseCase.deleteTask(id: state.item.id);
+          _updateEffect(const EditTaskEffect.close());
+        } on edit_task.Alert catch (e) {
+          _updateEffect(EditTaskEffect.showAlert(state: e.state));
+        }
     }
   }
 

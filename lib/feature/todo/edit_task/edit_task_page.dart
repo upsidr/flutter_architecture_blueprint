@@ -36,7 +36,12 @@ class EditTaskPage extends HookConsumerWidget with AlertStateCompatible {
       appBar: AppBar(
         leading: const BackButton(),
         actions: [
-          if (!isNewTask)
+          if (!isNewTask) ...[
+            IconButton(
+              onPressed: () =>
+                  ref.notifier.send(const EditTaskAction.deleteButtonTapped()),
+              icon: const Icon(Icons.delete),
+            ),
             TextButton(
               onPressed: isSubmitButtonEnabled
                   ? () => ref.notifier
@@ -47,6 +52,7 @@ class EditTaskPage extends HookConsumerWidget with AlertStateCompatible {
                 style: TextStyle(fontWeight: FontWeight.w600),
               ),
             ),
+          ],
           if (isNewTask)
             TextButton(
               onPressed: isSubmitButtonEnabled

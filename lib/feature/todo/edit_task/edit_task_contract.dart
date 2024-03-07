@@ -25,6 +25,7 @@ sealed class EditTaskAction with _$EditTaskAction {
       UncompleteButtonTapped;
   const factory EditTaskAction.addButtonTapped() = AddButtonTapped;
   const factory EditTaskAction.updateButtonTapped() = UpdateButtonTapped;
+  const factory EditTaskAction.deleteButtonTapped() = DeleteButtonTapped;
 }
 
 @freezed

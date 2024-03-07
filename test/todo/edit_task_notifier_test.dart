@@ -1,4 +1,5 @@
 import 'package:clock/clock.dart';
+import 'package:collection/collection.dart';
 import 'package:fake_async/fake_async.dart';
 import 'package:flutter_architecture_blueprint/core/data/repository/todo/fake_todo_repository.dart';
 import 'package:flutter_architecture_blueprint/core/data/repository/todo/todo_repository.dart';
@@ -135,6 +136,31 @@ void main() {
       expect(uiState().item.isCompleted, true);
       notifier.send(const EditTaskAction.uncompleteButtonTapped());
       expect(uiState().item.isCompleted, false);
+    });
+
+    test('Delete a task exists', () async {
+      buildContainer(argument: sampleEditableTask);
+      final notifier = container.read(notifierProvider().notifier);
+      final uiStateSubscription =
+          container.listen(notifierProvider(), (previous, next) {});
+      addTearDown(uiStateSubscription.close);
+
+      expect(uiState().isNewTask, false);
+      expect(uiState().isSubmitButtonEnabled, true);
+      expect(
+        todoRepository.fakeState.value.taskList
+            .none((t) => t.id == sampleEditableTask.id),
+        false,
+      );
+
+      notifier.send(const EditTaskAction.deleteButtonTapped());
+      await container.pump();
+      expect(effect(), const EditTaskEffect.close());
+      expect(
+        todoRepository.fakeState.value.taskList
+            .none((t) => t.id == sampleEditableTask.id),
+        true,
+      );
     });
 
     test('Request Add new task', () {

@@ -156,6 +156,7 @@ mixin _$EditTaskAction {
     required TResult Function() uncompleteButtonTapped,
     required TResult Function() addButtonTapped,
     required TResult Function() updateButtonTapped,
+    required TResult Function() deleteButtonTapped,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -166,6 +167,7 @@ mixin _$EditTaskAction {
     TResult? Function()? uncompleteButtonTapped,
     TResult? Function()? addButtonTapped,
     TResult? Function()? updateButtonTapped,
+    TResult? Function()? deleteButtonTapped,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -176,6 +178,7 @@ mixin _$EditTaskAction {
     TResult Function()? uncompleteButtonTapped,
     TResult Function()? addButtonTapped,
     TResult Function()? updateButtonTapped,
+    TResult Function()? deleteButtonTapped,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -188,6 +191,7 @@ mixin _$EditTaskAction {
         uncompleteButtonTapped,
     required TResult Function(AddButtonTapped value) addButtonTapped,
     required TResult Function(UpdateButtonTapped value) updateButtonTapped,
+    required TResult Function(DeleteButtonTapped value) deleteButtonTapped,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -198,6 +202,7 @@ mixin _$EditTaskAction {
     TResult? Function(UncompleteButtonTapped value)? uncompleteButtonTapped,
     TResult? Function(AddButtonTapped value)? addButtonTapped,
     TResult? Function(UpdateButtonTapped value)? updateButtonTapped,
+    TResult? Function(DeleteButtonTapped value)? deleteButtonTapped,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -208,6 +213,7 @@ mixin _$EditTaskAction {
     TResult Function(UncompleteButtonTapped value)? uncompleteButtonTapped,
     TResult Function(AddButtonTapped value)? addButtonTapped,
     TResult Function(UpdateButtonTapped value)? updateButtonTapped,
+    TResult Function(DeleteButtonTapped value)? deleteButtonTapped,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -303,6 +309,7 @@ class _$OnTitleChangedImpl implements OnTitleChanged {
     required TResult Function() uncompleteButtonTapped,
     required TResult Function() addButtonTapped,
     required TResult Function() updateButtonTapped,
+    required TResult Function() deleteButtonTapped,
   }) {
     return onTitleChanged(newValue);
   }
@@ -316,6 +323,7 @@ class _$OnTitleChangedImpl implements OnTitleChanged {
     TResult? Function()? uncompleteButtonTapped,
     TResult? Function()? addButtonTapped,
     TResult? Function()? updateButtonTapped,
+    TResult? Function()? deleteButtonTapped,
   }) {
     return onTitleChanged?.call(newValue);
   }
@@ -329,6 +337,7 @@ class _$OnTitleChangedImpl implements OnTitleChanged {
     TResult Function()? uncompleteButtonTapped,
     TResult Function()? addButtonTapped,
     TResult Function()? updateButtonTapped,
+    TResult Function()? deleteButtonTapped,
     required TResult orElse(),
   }) {
     if (onTitleChanged != null) {
@@ -347,6 +356,7 @@ class _$OnTitleChangedImpl implements OnTitleChanged {
         uncompleteButtonTapped,
     required TResult Function(AddButtonTapped value) addButtonTapped,
     required TResult Function(UpdateButtonTapped value) updateButtonTapped,
+    required TResult Function(DeleteButtonTapped value) deleteButtonTapped,
   }) {
     return onTitleChanged(this);
   }
@@ -360,6 +370,7 @@ class _$OnTitleChangedImpl implements OnTitleChanged {
     TResult? Function(UncompleteButtonTapped value)? uncompleteButtonTapped,
     TResult? Function(AddButtonTapped value)? addButtonTapped,
     TResult? Function(UpdateButtonTapped value)? updateButtonTapped,
+    TResult? Function(DeleteButtonTapped value)? deleteButtonTapped,
   }) {
     return onTitleChanged?.call(this);
   }
@@ -373,6 +384,7 @@ class _$OnTitleChangedImpl implements OnTitleChanged {
     TResult Function(UncompleteButtonTapped value)? uncompleteButtonTapped,
     TResult Function(AddButtonTapped value)? addButtonTapped,
     TResult Function(UpdateButtonTapped value)? updateButtonTapped,
+    TResult Function(DeleteButtonTapped value)? deleteButtonTapped,
     required TResult orElse(),
   }) {
     if (onTitleChanged != null) {
@@ -464,6 +476,7 @@ class _$OnDescriptionChangedImpl implements OnDescriptionChanged {
     required TResult Function() uncompleteButtonTapped,
     required TResult Function() addButtonTapped,
     required TResult Function() updateButtonTapped,
+    required TResult Function() deleteButtonTapped,
   }) {
     return onDescriptionChanged(newValue);
   }
@@ -477,6 +490,7 @@ class _$OnDescriptionChangedImpl implements OnDescriptionChanged {
     TResult? Function()? uncompleteButtonTapped,
     TResult? Function()? addButtonTapped,
     TResult? Function()? updateButtonTapped,
+    TResult? Function()? deleteButtonTapped,
   }) {
     return onDescriptionChanged?.call(newValue);
   }
@@ -490,6 +504,7 @@ class _$OnDescriptionChangedImpl implements OnDescriptionChanged {
     TResult Function()? uncompleteButtonTapped,
     TResult Function()? addButtonTapped,
     TResult Function()? updateButtonTapped,
+    TResult Function()? deleteButtonTapped,
     required TResult orElse(),
   }) {
     if (onDescriptionChanged != null) {
@@ -508,6 +523,7 @@ class _$OnDescriptionChangedImpl implements OnDescriptionChanged {
         uncompleteButtonTapped,
     required TResult Function(AddButtonTapped value) addButtonTapped,
     required TResult Function(UpdateButtonTapped value) updateButtonTapped,
+    required TResult Function(DeleteButtonTapped value) deleteButtonTapped,
   }) {
     return onDescriptionChanged(this);
   }
@@ -521,6 +537,7 @@ class _$OnDescriptionChangedImpl implements OnDescriptionChanged {
     TResult? Function(UncompleteButtonTapped value)? uncompleteButtonTapped,
     TResult? Function(AddButtonTapped value)? addButtonTapped,
     TResult? Function(UpdateButtonTapped value)? updateButtonTapped,
+    TResult? Function(DeleteButtonTapped value)? deleteButtonTapped,
   }) {
     return onDescriptionChanged?.call(this);
   }
@@ -534,6 +551,7 @@ class _$OnDescriptionChangedImpl implements OnDescriptionChanged {
     TResult Function(UncompleteButtonTapped value)? uncompleteButtonTapped,
     TResult Function(AddButtonTapped value)? addButtonTapped,
     TResult Function(UpdateButtonTapped value)? updateButtonTapped,
+    TResult Function(DeleteButtonTapped value)? deleteButtonTapped,
     required TResult orElse(),
   }) {
     if (onDescriptionChanged != null) {
@@ -598,6 +616,7 @@ class _$CompleteButtonTappedImpl implements CompleteButtonTapped {
     required TResult Function() uncompleteButtonTapped,
     required TResult Function() addButtonTapped,
     required TResult Function() updateButtonTapped,
+    required TResult Function() deleteButtonTapped,
   }) {
     return completeButtonTapped();
   }
@@ -611,6 +630,7 @@ class _$CompleteButtonTappedImpl implements CompleteButtonTapped {
     TResult? Function()? uncompleteButtonTapped,
     TResult? Function()? addButtonTapped,
     TResult? Function()? updateButtonTapped,
+    TResult? Function()? deleteButtonTapped,
   }) {
     return completeButtonTapped?.call();
   }
@@ -624,6 +644,7 @@ class _$CompleteButtonTappedImpl implements CompleteButtonTapped {
     TResult Function()? uncompleteButtonTapped,
     TResult Function()? addButtonTapped,
     TResult Function()? updateButtonTapped,
+    TResult Function()? deleteButtonTapped,
     required TResult orElse(),
   }) {
     if (completeButtonTapped != null) {
@@ -642,6 +663,7 @@ class _$CompleteButtonTappedImpl implements CompleteButtonTapped {
         uncompleteButtonTapped,
     required TResult Function(AddButtonTapped value) addButtonTapped,
     required TResult Function(UpdateButtonTapped value) updateButtonTapped,
+    required TResult Function(DeleteButtonTapped value) deleteButtonTapped,
   }) {
     return completeButtonTapped(this);
   }
@@ -655,6 +677,7 @@ class _$CompleteButtonTappedImpl implements CompleteButtonTapped {
     TResult? Function(UncompleteButtonTapped value)? uncompleteButtonTapped,
     TResult? Function(AddButtonTapped value)? addButtonTapped,
     TResult? Function(UpdateButtonTapped value)? updateButtonTapped,
+    TResult? Function(DeleteButtonTapped value)? deleteButtonTapped,
   }) {
     return completeButtonTapped?.call(this);
   }
@@ -668,6 +691,7 @@ class _$CompleteButtonTappedImpl implements CompleteButtonTapped {
     TResult Function(UncompleteButtonTapped value)? uncompleteButtonTapped,
     TResult Function(AddButtonTapped value)? addButtonTapped,
     TResult Function(UpdateButtonTapped value)? updateButtonTapped,
+    TResult Function(DeleteButtonTapped value)? deleteButtonTapped,
     required TResult orElse(),
   }) {
     if (completeButtonTapped != null) {
@@ -728,6 +752,7 @@ class _$UncompleteButtonTappedImpl implements UncompleteButtonTapped {
     required TResult Function() uncompleteButtonTapped,
     required TResult Function() addButtonTapped,
     required TResult Function() updateButtonTapped,
+    required TResult Function() deleteButtonTapped,
   }) {
     return uncompleteButtonTapped();
   }
@@ -741,6 +766,7 @@ class _$UncompleteButtonTappedImpl implements UncompleteButtonTapped {
     TResult? Function()? uncompleteButtonTapped,
     TResult? Function()? addButtonTapped,
     TResult? Function()? updateButtonTapped,
+    TResult? Function()? deleteButtonTapped,
   }) {
     return uncompleteButtonTapped?.call();
   }
@@ -754,6 +780,7 @@ class _$UncompleteButtonTappedImpl implements UncompleteButtonTapped {
     TResult Function()? uncompleteButtonTapped,
     TResult Function()? addButtonTapped,
     TResult Function()? updateButtonTapped,
+    TResult Function()? deleteButtonTapped,
     required TResult orElse(),
   }) {
     if (uncompleteButtonTapped != null) {
@@ -772,6 +799,7 @@ class _$UncompleteButtonTappedImpl implements UncompleteButtonTapped {
         uncompleteButtonTapped,
     required TResult Function(AddButtonTapped value) addButtonTapped,
     required TResult Function(UpdateButtonTapped value) updateButtonTapped,
+    required TResult Function(DeleteButtonTapped value) deleteButtonTapped,
   }) {
     return uncompleteButtonTapped(this);
   }
@@ -785,6 +813,7 @@ class _$UncompleteButtonTappedImpl implements UncompleteButtonTapped {
     TResult? Function(UncompleteButtonTapped value)? uncompleteButtonTapped,
     TResult? Function(AddButtonTapped value)? addButtonTapped,
     TResult? Function(UpdateButtonTapped value)? updateButtonTapped,
+    TResult? Function(DeleteButtonTapped value)? deleteButtonTapped,
   }) {
     return uncompleteButtonTapped?.call(this);
   }
@@ -798,6 +827,7 @@ class _$UncompleteButtonTappedImpl implements UncompleteButtonTapped {
     TResult Function(UncompleteButtonTapped value)? uncompleteButtonTapped,
     TResult Function(AddButtonTapped value)? addButtonTapped,
     TResult Function(UpdateButtonTapped value)? updateButtonTapped,
+    TResult Function(DeleteButtonTapped value)? deleteButtonTapped,
     required TResult orElse(),
   }) {
     if (uncompleteButtonTapped != null) {
@@ -855,6 +885,7 @@ class _$AddButtonTappedImpl implements AddButtonTapped {
     required TResult Function() uncompleteButtonTapped,
     required TResult Function() addButtonTapped,
     required TResult Function() updateButtonTapped,
+    required TResult Function() deleteButtonTapped,
   }) {
     return addButtonTapped();
   }
@@ -868,6 +899,7 @@ class _$AddButtonTappedImpl implements AddButtonTapped {
     TResult? Function()? uncompleteButtonTapped,
     TResult? Function()? addButtonTapped,
     TResult? Function()? updateButtonTapped,
+    TResult? Function()? deleteButtonTapped,
   }) {
     return addButtonTapped?.call();
   }
@@ -881,6 +913,7 @@ class _$AddButtonTappedImpl implements AddButtonTapped {
     TResult Function()? uncompleteButtonTapped,
     TResult Function()? addButtonTapped,
     TResult Function()? updateButtonTapped,
+    TResult Function()? deleteButtonTapped,
     required TResult orElse(),
   }) {
     if (addButtonTapped != null) {
@@ -899,6 +932,7 @@ class _$AddButtonTappedImpl implements AddButtonTapped {
         uncompleteButtonTapped,
     required TResult Function(AddButtonTapped value) addButtonTapped,
     required TResult Function(UpdateButtonTapped value) updateButtonTapped,
+    required TResult Function(DeleteButtonTapped value) deleteButtonTapped,
   }) {
     return addButtonTapped(this);
   }
@@ -912,6 +946,7 @@ class _$AddButtonTappedImpl implements AddButtonTapped {
     TResult? Function(UncompleteButtonTapped value)? uncompleteButtonTapped,
     TResult? Function(AddButtonTapped value)? addButtonTapped,
     TResult? Function(UpdateButtonTapped value)? updateButtonTapped,
+    TResult? Function(DeleteButtonTapped value)? deleteButtonTapped,
   }) {
     return addButtonTapped?.call(this);
   }
@@ -925,6 +960,7 @@ class _$AddButtonTappedImpl implements AddButtonTapped {
     TResult Function(UncompleteButtonTapped value)? uncompleteButtonTapped,
     TResult Function(AddButtonTapped value)? addButtonTapped,
     TResult Function(UpdateButtonTapped value)? updateButtonTapped,
+    TResult Function(DeleteButtonTapped value)? deleteButtonTapped,
     required TResult orElse(),
   }) {
     if (addButtonTapped != null) {
@@ -982,6 +1018,7 @@ class _$UpdateButtonTappedImpl implements UpdateButtonTapped {
     required TResult Function() uncompleteButtonTapped,
     required TResult Function() addButtonTapped,
     required TResult Function() updateButtonTapped,
+    required TResult Function() deleteButtonTapped,
   }) {
     return updateButtonTapped();
   }
@@ -995,6 +1032,7 @@ class _$UpdateButtonTappedImpl implements UpdateButtonTapped {
     TResult? Function()? uncompleteButtonTapped,
     TResult? Function()? addButtonTapped,
     TResult? Function()? updateButtonTapped,
+    TResult? Function()? deleteButtonTapped,
   }) {
     return updateButtonTapped?.call();
   }
@@ -1008,6 +1046,7 @@ class _$UpdateButtonTappedImpl implements UpdateButtonTapped {
     TResult Function()? uncompleteButtonTapped,
     TResult Function()? addButtonTapped,
     TResult Function()? updateButtonTapped,
+    TResult Function()? deleteButtonTapped,
     required TResult orElse(),
   }) {
     if (updateButtonTapped != null) {
@@ -1026,6 +1065,7 @@ class _$UpdateButtonTappedImpl implements UpdateButtonTapped {
         uncompleteButtonTapped,
     required TResult Function(AddButtonTapped value) addButtonTapped,
     required TResult Function(UpdateButtonTapped value) updateButtonTapped,
+    required TResult Function(DeleteButtonTapped value) deleteButtonTapped,
   }) {
     return updateButtonTapped(this);
   }
@@ -1039,6 +1079,7 @@ class _$UpdateButtonTappedImpl implements UpdateButtonTapped {
     TResult? Function(UncompleteButtonTapped value)? uncompleteButtonTapped,
     TResult? Function(AddButtonTapped value)? addButtonTapped,
     TResult? Function(UpdateButtonTapped value)? updateButtonTapped,
+    TResult? Function(DeleteButtonTapped value)? deleteButtonTapped,
   }) {
     return updateButtonTapped?.call(this);
   }
@@ -1052,6 +1093,7 @@ class _$UpdateButtonTappedImpl implements UpdateButtonTapped {
     TResult Function(UncompleteButtonTapped value)? uncompleteButtonTapped,
     TResult Function(AddButtonTapped value)? addButtonTapped,
     TResult Function(UpdateButtonTapped value)? updateButtonTapped,
+    TResult Function(DeleteButtonTapped value)? deleteButtonTapped,
     required TResult orElse(),
   }) {
     if (updateButtonTapped != null) {
@@ -1063,6 +1105,139 @@ class _$UpdateButtonTappedImpl implements UpdateButtonTapped {
 
 abstract class UpdateButtonTapped implements EditTaskAction {
   const factory UpdateButtonTapped() = _$UpdateButtonTappedImpl;
+}
+
+/// @nodoc
+abstract class _$$DeleteButtonTappedImplCopyWith<$Res> {
+  factory _$$DeleteButtonTappedImplCopyWith(_$DeleteButtonTappedImpl value,
+          $Res Function(_$DeleteButtonTappedImpl) then) =
+      __$$DeleteButtonTappedImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$DeleteButtonTappedImplCopyWithImpl<$Res>
+    extends _$EditTaskActionCopyWithImpl<$Res, _$DeleteButtonTappedImpl>
+    implements _$$DeleteButtonTappedImplCopyWith<$Res> {
+  __$$DeleteButtonTappedImplCopyWithImpl(_$DeleteButtonTappedImpl _value,
+      $Res Function(_$DeleteButtonTappedImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$DeleteButtonTappedImpl implements DeleteButtonTapped {
+  const _$DeleteButtonTappedImpl();
+
+  @override
+  String toString() {
+    return 'EditTaskAction.deleteButtonTapped()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$DeleteButtonTappedImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String newValue) onTitleChanged,
+    required TResult Function(String newValue) onDescriptionChanged,
+    required TResult Function() completeButtonTapped,
+    required TResult Function() uncompleteButtonTapped,
+    required TResult Function() addButtonTapped,
+    required TResult Function() updateButtonTapped,
+    required TResult Function() deleteButtonTapped,
+  }) {
+    return deleteButtonTapped();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String newValue)? onTitleChanged,
+    TResult? Function(String newValue)? onDescriptionChanged,
+    TResult? Function()? completeButtonTapped,
+    TResult? Function()? uncompleteButtonTapped,
+    TResult? Function()? addButtonTapped,
+    TResult? Function()? updateButtonTapped,
+    TResult? Function()? deleteButtonTapped,
+  }) {
+    return deleteButtonTapped?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String newValue)? onTitleChanged,
+    TResult Function(String newValue)? onDescriptionChanged,
+    TResult Function()? completeButtonTapped,
+    TResult Function()? uncompleteButtonTapped,
+    TResult Function()? addButtonTapped,
+    TResult Function()? updateButtonTapped,
+    TResult Function()? deleteButtonTapped,
+    required TResult orElse(),
+  }) {
+    if (deleteButtonTapped != null) {
+      return deleteButtonTapped();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(OnTitleChanged value) onTitleChanged,
+    required TResult Function(OnDescriptionChanged value) onDescriptionChanged,
+    required TResult Function(CompleteButtonTapped value) completeButtonTapped,
+    required TResult Function(UncompleteButtonTapped value)
+        uncompleteButtonTapped,
+    required TResult Function(AddButtonTapped value) addButtonTapped,
+    required TResult Function(UpdateButtonTapped value) updateButtonTapped,
+    required TResult Function(DeleteButtonTapped value) deleteButtonTapped,
+  }) {
+    return deleteButtonTapped(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(OnTitleChanged value)? onTitleChanged,
+    TResult? Function(OnDescriptionChanged value)? onDescriptionChanged,
+    TResult? Function(CompleteButtonTapped value)? completeButtonTapped,
+    TResult? Function(UncompleteButtonTapped value)? uncompleteButtonTapped,
+    TResult? Function(AddButtonTapped value)? addButtonTapped,
+    TResult? Function(UpdateButtonTapped value)? updateButtonTapped,
+    TResult? Function(DeleteButtonTapped value)? deleteButtonTapped,
+  }) {
+    return deleteButtonTapped?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(OnTitleChanged value)? onTitleChanged,
+    TResult Function(OnDescriptionChanged value)? onDescriptionChanged,
+    TResult Function(CompleteButtonTapped value)? completeButtonTapped,
+    TResult Function(UncompleteButtonTapped value)? uncompleteButtonTapped,
+    TResult Function(AddButtonTapped value)? addButtonTapped,
+    TResult Function(UpdateButtonTapped value)? updateButtonTapped,
+    TResult Function(DeleteButtonTapped value)? deleteButtonTapped,
+    required TResult orElse(),
+  }) {
+    if (deleteButtonTapped != null) {
+      return deleteButtonTapped(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class DeleteButtonTapped implements EditTaskAction {
+  const factory DeleteButtonTapped() = _$DeleteButtonTappedImpl;
 }
 
 /// @nodoc
