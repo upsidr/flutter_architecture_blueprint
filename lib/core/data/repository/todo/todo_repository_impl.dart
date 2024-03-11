@@ -20,8 +20,12 @@ class TodoRepositoryImpl implements TodoRepository {
 
   @override
   Future<void> fetchTaskList() async {
-    final taskList = await _apiClient.getTaskList();
-    _taskList.add(taskList);
+    try {
+      final taskList = await _apiClient.getTaskList();
+      _taskList.add(taskList);
+    } on Exception catch (e) {
+      throw TodoRepositoryException.other(e);
+    }
   }
 
   @override

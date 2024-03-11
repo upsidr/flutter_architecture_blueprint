@@ -14,7 +14,7 @@ abstract class TodoRepository {
 }
 
 @freezed
-class TodoRepositoryException
+sealed class TodoRepositoryException
     with _$TodoRepositoryException
     implements Exception {
   const factory TodoRepositoryException.taskNotFound() = TaskNotFound;
