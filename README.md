@@ -46,3 +46,38 @@ Tools • Dart 3.3.0 • DevTools 2.31.1
 $ ruby -v
 ruby 3.2.1 (2023-02-08 revision 31819e82c8) [arm64-darwin23]
 ```
+
+### Snippet (VSCode)
+
+User Snippets → dart.json
+
+```json
+{
+  ...
+  "contract": {
+    "prefix": "cont",
+    "body": [
+      "import 'package:freezed_annotation/freezed_annotation.dart';",
+      "",
+      "part '$TM_FILENAME_BASE.freezed.dart';",
+      "",
+      "@freezed",
+      "class $1UiState with _\\$$1UiState {",
+      "  const factory $1UiState({",
+      "    ",
+      "  }) = _$1UiState;",
+      "}",
+      "",
+      "@freezed",
+      "class $1Action with _\\$$1Action {",
+      "  const factory $1Action.sampleAction() = SampleAction;",
+      "}",
+      "",
+      "@freezed",
+      "class $1Effect with _\\$$1Effect {",
+      "  const factory $1Effect.none() = None;",
+      "}",
+    ]
+  }
+}
+```
