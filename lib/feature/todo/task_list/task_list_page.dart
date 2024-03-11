@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_architecture_blueprint/core/domain/model/editable_user_task.dart';
 import 'package:flutter_architecture_blueprint/core/util/alert_state.dart';
+import 'package:flutter_architecture_blueprint/feature/todo/edit_task/edit_task_notifier.dart';
+import 'package:flutter_architecture_blueprint/feature/todo/edit_task/edit_task_page.dart';
 import 'package:flutter_architecture_blueprint/feature/todo/task_list/task_list_contract.dart';
 import 'package:flutter_architecture_blueprint/feature/todo/task_list/task_list_notifier.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -33,6 +35,11 @@ class TaskListPage extends HookConsumerWidget with AlertStateCompatible {
         centerTitle: true,
       ),
       body: const _TaskListBody(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () =>
+            ref.notifier.send(const TaskListAction.newTaskButtonTapped()),
+        child: const Icon(Icons.add),
+      ),
     );
   }
 
@@ -46,7 +53,18 @@ class TaskListPage extends HookConsumerWidget with AlertStateCompatible {
         break;
       case GoDetail():
         ref.notifier.consume();
-      // TODO: Nativate Detail
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProviderScope(
+              overrides: [
+                editTaskArgsProvider.overrideWith(
+                    (ref) => effect.task ?? EditableUserTask.create())
+              ],
+              child: const EditTaskPage(),
+            ),
+          ),
+        );
       case ShowAlert():
         ref.notifier.consume();
         handleAlertState(context, effect.state);

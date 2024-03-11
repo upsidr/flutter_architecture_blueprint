@@ -11,7 +11,9 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.6
+  intl:
 
+  clock:
   collection:
   uuid:
   rxdart:
@@ -35,6 +37,8 @@ dev_dependencies:
   build_runner:
   json_serializable:
   riverpod_generator:
+
+  fake_async:
 
 flutter:
   uses-material-design: true
