@@ -1,8 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_architecture_blueprint/app_router.dart';
 import 'package:flutter_architecture_blueprint/core/domain/model/editable_user_task.dart';
 import 'package:flutter_architecture_blueprint/core/util/alert_state.dart';
-import 'package:flutter_architecture_blueprint/feature/todo/edit_task/edit_task_notifier.dart';
-import 'package:flutter_architecture_blueprint/feature/todo/edit_task/edit_task_page.dart';
 import 'package:flutter_architecture_blueprint/feature/todo/task_list/task_list_contract.dart';
 import 'package:flutter_architecture_blueprint/feature/todo/task_list/task_list_notifier.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -16,6 +16,7 @@ extension _TaskListEx on WidgetRef {
   TaskListNotifier get notifier => read(taskListNotifierProvider.notifier);
 }
 
+@RoutePage()
 class TaskListPage extends HookConsumerWidget with AlertStateCompatible {
   const TaskListPage({super.key});
 
@@ -53,18 +54,7 @@ class TaskListPage extends HookConsumerWidget with AlertStateCompatible {
         break;
       case GoDetail():
         ref.notifier.consume();
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ProviderScope(
-              overrides: [
-                editTaskArgsProvider.overrideWith(
-                    (ref) => effect.task ?? EditableUserTask.create())
-              ],
-              child: const EditTaskPage(),
-            ),
-          ),
-        );
+        context.router.push(EditTaskRoute(task: effect.task));
       case ShowAlert():
         ref.notifier.consume();
         handleAlertState(context, effect.state);
