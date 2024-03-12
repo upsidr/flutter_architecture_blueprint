@@ -16,6 +16,7 @@ void main() {
   late BehaviorSubject<FakeTodoRepositoryState> fakeTodoState;
   late FakeTodoRepository todoRepository;
   late ProviderContainer container;
+  late EditableUserTask? task;
   buildAccessors({
     required EditableUserTask? argument,
   }) {
@@ -23,17 +24,12 @@ void main() {
       fakeTodoState
           .add(fakeTodoState.value.copyWith(taskList: [argument.toUserTask()]));
     }
-    container = ProviderContainer(overrides: [
-      todoRepositoryProvider.overrideWithValue(todoRepository),
-      editTaskArgsProvider
-          .overrideWith((ref) => argument ?? EditableUserTask.create()),
-    ]);
+    task = argument;
 
     final notifierProvider =
         editTaskNotifierProvider(container.read(editTaskArgsProvider));
-    final uiStateSubscription =
-        container.listen(notifierProvider, (previous, next) {});
-    addTearDown(uiStateSubscription.close);
+    final subscription = container.listen(notifierProvider, (_, __) {});
+    addTearDown(subscription.close);
 
     return (
       container.read(notifierProvider.notifier),
@@ -52,11 +48,14 @@ void main() {
   setUp(() {
     fakeTodoState = BehaviorSubject.seeded(const FakeTodoRepositoryState());
     todoRepository = FakeTodoRepository.from(fakeTodoState);
+    container = ProviderContainer(overrides: [
+      todoRepositoryProvider.overrideWithValue(todoRepository),
+      editTaskArgsProvider
+          .overrideWith((ref) => task ?? EditableUserTask.create()),
+    ]);
   });
 
-  tearDown(() {
-    container.dispose();
-  });
+  tearDown(() => container.dispose());
 
   group('Initial State', () {
     test('Cannot add new task', () async {
@@ -219,9 +218,8 @@ void main() {
 
       // Failed Request
 
-      todoRepository.handler.addTask = (task) async {
-        throw TodoRepositoryException.other(Exception());
-      };
+      todoRepository.handler.addTask =
+          (task) async => throw TodoRepositoryException.other(Exception());
 
       await notifier.send(const EditTaskAction.addButtonTapped());
       expect(
@@ -247,9 +245,8 @@ void main() {
 
       // Not Found
 
-      todoRepository.handler.updateTask = (task) async {
-        throw const TodoRepositoryException.taskNotFound();
-      };
+      todoRepository.handler.updateTask =
+          (task) async => throw const TodoRepositoryException.taskNotFound();
 
       await notifier.send(const EditTaskAction.updateButtonTapped());
       expect(
@@ -260,9 +257,8 @@ void main() {
 
       // Failed Request
 
-      todoRepository.handler.updateTask = (task) async {
-        throw TodoRepositoryException.other(Exception());
-      };
+      todoRepository.handler.updateTask =
+          (task) async => throw TodoRepositoryException.other(Exception());
 
       await notifier.send(const EditTaskAction.updateButtonTapped());
       expect(

@@ -17,9 +17,8 @@ void main() {
   late FakeTodoRepository todoRepository;
   late ProviderContainer container;
   buildAccessors() {
-    final uiStateSubscription =
-        container.listen(taskListNotifierProvider, (previous, next) {});
-    addTearDown(uiStateSubscription.close);
+    final subscription = container.listen(taskListNotifierProvider, (_, __) {});
+    addTearDown(subscription.close);
     return (
       container.read(taskListNotifierProvider.notifier),
       () => container.read(taskListNotifierProvider),
@@ -43,20 +42,18 @@ void main() {
     container = ProviderContainer(overrides: [
       todoRepositoryProvider.overrideWithValue(todoRepository),
     ]);
-    todoRepository.handler.fetchTaskList = () async {
-      fakeTodoState.add(fakeTodoState.value.copyWith(taskList: sampleTaskList));
-    };
+    todoRepository.handler.fetchTaskList = () async => fakeTodoState
+        .add(fakeTodoState.value.copyWith(taskList: sampleTaskList));
   });
 
-  tearDown(() {
-    container.dispose();
-  });
+  tearDown(() => container.dispose());
 
   group('Fetch task list', () {
     test('When OnAppear, fetched empty task list', () async {
       final (notifier, uiState, _) = buildAccessors();
 
-      todoRepository.handler.fetchTaskList = () async {};
+      todoRepository.handler.fetchTaskList = () async =>
+          fakeTodoState.add(fakeTodoState.value.copyWith(taskList: []));
 
       await notifier.send(const TaskListAction.onAppear());
       expect(uiState().taskList.isEmpty, true);
@@ -77,7 +74,8 @@ void main() {
     test('Tap NewTaskButton, navigate detail', () async {
       final (notifier, uiState, effect) = buildAccessors();
 
-      todoRepository.handler.fetchTaskList = () async {};
+      todoRepository.handler.fetchTaskList = () async =>
+          fakeTodoState.add(fakeTodoState.value.copyWith(taskList: []));
 
       await notifier.send(const TaskListAction.onAppear());
       expect(uiState().taskList.isEmpty, true);
@@ -154,9 +152,8 @@ void main() {
     test('Handle errors for fetch list', () async {
       final (notifier, uiState, effect) = buildAccessors();
 
-      todoRepository.handler.fetchTaskList = () async {
-        throw TodoRepositoryException.other(Exception());
-      };
+      todoRepository.handler.fetchTaskList =
+          () async => throw TodoRepositoryException.other(Exception());
 
       await notifier.send(const TaskListAction.onAppear());
       expect(uiState().taskList.isEmpty, true);
@@ -177,9 +174,8 @@ void main() {
 
       // Not Found
 
-      todoRepository.handler.updateTask = (task) async {
-        throw const TodoRepositoryException.taskNotFound();
-      };
+      todoRepository.handler.updateTask =
+          (task) async => throw const TodoRepositoryException.taskNotFound();
 
       final taskNotFound = uiState().taskList.first.copyWith(id: uuid.v4());
       await notifier.send(TaskListAction.toggleIsCompleted(taskNotFound));
@@ -191,9 +187,8 @@ void main() {
 
       // Failed Request
 
-      todoRepository.handler.updateTask = (task) async {
-        throw TodoRepositoryException.other(Exception());
-      };
+      todoRepository.handler.updateTask =
+          (task) async => throw TodoRepositoryException.other(Exception());
 
       final target = uiState().taskList.first;
       await notifier.send(TaskListAction.toggleIsCompleted(target));
@@ -214,9 +209,8 @@ void main() {
 
       // Not Found
 
-      todoRepository.handler.removeTask = (id) async {
-        throw const TodoRepositoryException.taskNotFound();
-      };
+      todoRepository.handler.removeTask =
+          (id) async => throw const TodoRepositoryException.taskNotFound();
 
       final target = uiState().taskList.first;
       await notifier.send(TaskListAction.onTaskSwiped(target));
@@ -228,9 +222,8 @@ void main() {
 
       // Failed Request
 
-      todoRepository.handler.removeTask = (id) async {
-        throw TodoRepositoryException.other(Exception());
-      };
+      todoRepository.handler.removeTask =
+          (id) async => throw TodoRepositoryException.other(Exception());
 
       final target2 = uiState().taskList.first;
       await notifier.send(TaskListAction.onTaskSwiped(target2));
