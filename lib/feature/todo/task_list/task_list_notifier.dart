@@ -25,7 +25,7 @@ class TaskListNotifier extends _$TaskListNotifier implements TaskListContract {
 
   @override
   TaskListUiState build() {
-    _taskListSubscription = _taskListUseCase.taskList
+    _taskListSubscription = _taskListUseCase()
         .listen((list) => state = state.copyWith(taskList: list));
     ref.onDispose(_taskListSubscription.cancel);
     return const TaskListUiState();

@@ -16,9 +16,12 @@ class TaskListUseCase {
   const TaskListUseCase(this._todoRepository);
 
   final todo_repository.TodoRepository _todoRepository;
-  Stream<List<EditableUserTask>> get taskList => _todoRepository.taskList.map(
-        (list) => list.map((t) => t.toEditable()).toList(),
-      );
+
+  Stream<List<EditableUserTask>> call() {
+    return _todoRepository.taskList.map(
+      (list) => list.map((t) => t.toEditable()).toList(),
+    );
+  }
 
   Future<void> fetch() async {
     try {
