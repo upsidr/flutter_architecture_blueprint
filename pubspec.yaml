@@ -29,6 +29,7 @@ dependencies:
   auto_route:
   gap:
   sliver_tools:
+  device_preview:
 
 dev_dependencies:
   flutter_test:

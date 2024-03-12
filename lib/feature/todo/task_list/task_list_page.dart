@@ -67,13 +67,11 @@ class _TaskListBody extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final taskListNotCompleted = ref.watch(
-      taskListNotifierProvider.select(
-          (value) => value.taskList.where((t) => !t.isCompleted).toList()),
-    );
-    final taskListCompleted = ref.watch(
-      taskListNotifierProvider.select(
-          (value) => value.taskList.where((t) => t.isCompleted).toList()),
+    final (taskListNotCompleted, taskListCompleted) = ref.watch(
+      taskListNotifierProvider.select((value) => (
+            value.taskList.where((t) => !t.isCompleted),
+            value.taskList.where((t) => t.isCompleted),
+          )),
     );
 
     return CustomScrollView(
@@ -116,7 +114,7 @@ class _TaskListBody extends HookConsumerWidget {
 
   List<TaskListItem> buildList(
     WidgetRef ref, {
-    required List<EditableUserTask> taskList,
+    required Iterable<EditableUserTask> taskList,
   }) {
     return taskList
         .map(
