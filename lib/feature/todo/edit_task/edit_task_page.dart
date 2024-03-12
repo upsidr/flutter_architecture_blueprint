@@ -69,7 +69,7 @@ class _EditTaskPage extends HookConsumerWidget with AlertStateCompatible {
             IconButton(
               onPressed: () =>
                   ref.notifier.send(const EditTaskAction.deleteButtonTapped()),
-              icon: const Icon(Icons.delete),
+              icon: const Icon(Icons.delete, applyTextScaling: true),
             ),
             TextButton(
               onPressed: isSubmitButtonEnabled
@@ -151,7 +151,7 @@ class _EditTaskBody extends HookConsumerWidget {
               // Description
               const Gap(30),
               iconRow(
-                icon: const Icon(Icons.description),
+                icon: const Icon(Icons.description, applyTextScaling: true),
                 trailing: TaskTextField(
                   controller: descriptionEditingController,
                   onChanged: (newValue) {
@@ -166,7 +166,7 @@ class _EditTaskBody extends HookConsumerWidget {
               if (item.updatedAt != null) ...[
                 const Gap(30),
                 iconRow(
-                  icon: const Icon(Icons.update),
+                  icon: const Icon(Icons.update, applyTextScaling: true),
                   trailing: Text(
                     item.updatedAt!.yMMMMEEEEd(),
                     style: dateTextStyle,
@@ -178,7 +178,7 @@ class _EditTaskBody extends HookConsumerWidget {
               else if (item.createdAt != null) ...[
                 const Gap(30),
                 iconRow(
-                  icon: const Icon(Icons.query_builder),
+                  icon: const Icon(Icons.query_builder, applyTextScaling: true),
                   trailing: Text(
                     item.createdAt!.yMMMMEEEEd(),
                     style: dateTextStyle,
