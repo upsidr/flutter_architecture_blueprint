@@ -12,6 +12,7 @@ sealed class AlertState with _$AlertState {
   const factory AlertState.silent() = Silent;
 }
 
+// Provides the feature to display commonized dialogs to Widget.
 mixin AlertStateCompatible {
   handleAlertState(BuildContext context, AlertState state) async {
     switch (state) {

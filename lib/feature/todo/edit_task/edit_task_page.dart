@@ -13,6 +13,7 @@ import 'package:sliver_tools/sliver_tools.dart';
 
 import 'ui_components/toggle_complete_button.dart';
 
+// Extension: Shorthand for Notifier / NotifierProvider
 extension _EditTaskEx on WidgetRef {
   EditTaskNotifierProvider get notifierProvider {
     final task = watch(editTaskArgsProvider);
@@ -58,6 +59,7 @@ class _EditTaskPage extends HookConsumerWidget with AlertStateCompatible {
       ref.notifierProvider.select((value) => value.isSubmitButtonEnabled),
     );
 
+    // Handling effects here.
     ref.listen(editTaskEffectProvider,
         (_, effect) => handleEffect(context, ref, effect: effect));
 
