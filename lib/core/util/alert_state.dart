@@ -16,8 +16,8 @@ sealed class AlertState with _$AlertState {
 mixin AlertStateCompatible {
   handleAlertState(BuildContext context, AlertState state) async {
     switch (state) {
-      case OkDialog(:final title, :final message):
-        await _showDialog(context, title: title, message: message);
+      case OkDialog():
+        await _showDialog(context, title: state.title, message: state.message);
       case Silent():
         break;
     }
