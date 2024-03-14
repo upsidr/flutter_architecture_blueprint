@@ -43,8 +43,8 @@ void main() {
     title: 'title1',
     createdAt: clock.now(),
   );
-  const generalErrorAlertState = AlertState.okDialog(message: 'エラー');
-  const notFoundAlertState = AlertState.okDialog(message: 'タスクが見つかりませんでした');
+  const generalErrorAlertState = AlertState.okDialog(message: 'Error');
+  const notFoundAlertState = AlertState.okDialog(message: 'Not found');
 
   setUp(() {
     fakeTodoState = BehaviorSubject.seeded(const FakeTodoRepositoryState());

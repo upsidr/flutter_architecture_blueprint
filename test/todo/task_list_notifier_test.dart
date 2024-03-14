@@ -34,8 +34,8 @@ void main() {
     UserTask(id: uuid.v4(), title: 'title2', createdAt: DateTime(2024, 3, 4)),
     UserTask(id: uuid.v4(), title: 'title3', createdAt: DateTime(2024, 3, 5)),
   ];
-  const generalErrorAlertState = AlertState.okDialog(message: 'エラー');
-  const notFoundAlertState = AlertState.okDialog(message: 'タスクが見つかりませんでした');
+  const generalErrorAlertState = AlertState.okDialog(message: 'Error');
+  const notFoundAlertState = AlertState.okDialog(message: 'Not found');
 
   setUp(() {
     fakeTodoState = BehaviorSubject.seeded(const FakeTodoRepositoryState());

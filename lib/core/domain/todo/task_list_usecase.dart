@@ -28,7 +28,7 @@ class TaskListUseCase {
       await _todoRepository.fetchTaskList();
     } on todo_repository.Other catch (_) {
       throw const TaskListUseCaseException.alert(
-          state: AlertState.okDialog(message: 'エラー'));
+          state: AlertState.okDialog(message: 'Error'));
     }
   }
 }

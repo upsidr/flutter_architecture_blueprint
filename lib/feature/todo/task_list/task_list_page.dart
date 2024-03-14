@@ -34,7 +34,7 @@ class TaskListPage extends HookConsumerWidget with AlertStateCompatible {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ToDo リスト'),
+        title: const Text('ToDo'),
         centerTitle: true,
       ),
       body: const _TaskListBody(),
@@ -98,7 +98,7 @@ class _TaskListBody extends HookConsumerWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(
-                '完了 (${taskListCompleted.length}件)',
+                '${taskListCompleted.length} Completed',
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
             ),
