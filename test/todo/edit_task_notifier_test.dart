@@ -6,6 +6,7 @@ import 'package:flutter_architecture_blueprint/core/data/repository/todo/todo_re
 import 'package:flutter_architecture_blueprint/core/data/repository/todo/todo_repository_impl.dart';
 import 'package:flutter_architecture_blueprint/core/domain/model/editable_user_task.dart';
 import 'package:flutter_architecture_blueprint/core/util/alert_state.dart';
+import 'package:flutter_architecture_blueprint/core/util/stream_extensions.dart';
 import 'package:flutter_architecture_blueprint/feature/todo/edit_task/edit_task_contract.dart';
 import 'package:flutter_architecture_blueprint/feature/todo/edit_task/edit_task_notifier.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -22,7 +23,7 @@ void main() {
   }) {
     if (argument != null) {
       fakeTodoState
-          .add(fakeTodoState.value.copyWith(taskList: [argument.toUserTask()]));
+          .update((value) => value.copyWith(taskList: [argument.toUserTask()]));
     }
     task = argument;
 

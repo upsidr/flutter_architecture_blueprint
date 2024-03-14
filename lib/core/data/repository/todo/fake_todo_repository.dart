@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_architecture_blueprint/core/data/repository/todo/todo_repository.dart';
 import 'package:flutter_architecture_blueprint/core/model/user_task.dart';
+import 'package:flutter_architecture_blueprint/core/util/stream_extensions.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rxdart/subjects.dart';
 
@@ -52,16 +53,16 @@ class FakeTodoRepositoryHandler {
 
   late AsyncCallback fetchTaskList = () async {};
   late AsyncValueSetter<UserTask> addTask = (task) async {
-    final state = fakeState.value;
-    fakeState.add(state.copyWith(taskList: state.taskList.appending(task)));
+    fakeState.update(
+        (value) => value.copyWith(taskList: value.taskList.appending(task)));
   };
   late AsyncValueSetter<UserTask> updateTask = (task) async {
-    final state = fakeState.value;
-    fakeState.add(state.copyWith(taskList: state.taskList.replaced(task)));
+    fakeState.update(
+        (value) => value.copyWith(taskList: value.taskList.replaced(task)));
   };
   late AsyncValueSetter<String> removeTask = (taskId) async {
-    final state = fakeState.value;
-    fakeState.add(state.copyWith(taskList: state.taskList.deletedBy(taskId)));
+    fakeState.update(
+        (value) => value.copyWith(taskList: value.taskList.deletedBy(taskId)));
   };
 }
 

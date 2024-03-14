@@ -5,6 +5,7 @@ import 'package:flutter_architecture_blueprint/core/data/repository/todo/todo_re
 import 'package:flutter_architecture_blueprint/core/domain/model/editable_user_task.dart';
 import 'package:flutter_architecture_blueprint/core/model/user_task.dart';
 import 'package:flutter_architecture_blueprint/core/util/alert_state.dart';
+import 'package:flutter_architecture_blueprint/core/util/stream_extensions.dart';
 import 'package:flutter_architecture_blueprint/feature/todo/task_list/task_list_contract.dart';
 import 'package:flutter_architecture_blueprint/feature/todo/task_list/task_list_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -42,8 +43,9 @@ void main() {
     container = ProviderContainer(overrides: [
       todoRepositoryProvider.overrideWithValue(todoRepository),
     ]);
+
     todoRepository.handler.fetchTaskList = () async => fakeTodoState
-        .add(fakeTodoState.value.copyWith(taskList: sampleTaskList));
+        .update((value) => value.copyWith(taskList: sampleTaskList));
   });
 
   tearDown(() => container.dispose());
@@ -53,7 +55,7 @@ void main() {
       final (notifier, uiState, _) = buildAccessors();
 
       todoRepository.handler.fetchTaskList = () async =>
-          fakeTodoState.add(fakeTodoState.value.copyWith(taskList: []));
+          fakeTodoState.update((value) => value.copyWith(taskList: []));
 
       await notifier.send(const TaskListAction.onAppear());
       expect(uiState().taskList.isEmpty, true);
@@ -75,7 +77,7 @@ void main() {
       final (notifier, uiState, effect) = buildAccessors();
 
       todoRepository.handler.fetchTaskList = () async =>
-          fakeTodoState.add(fakeTodoState.value.copyWith(taskList: []));
+          fakeTodoState.update((value) => value.copyWith(taskList: []));
 
       await notifier.send(const TaskListAction.onAppear());
       expect(uiState().taskList.isEmpty, true);
