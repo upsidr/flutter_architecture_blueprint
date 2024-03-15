@@ -5,6 +5,7 @@ import 'package:flutter_architecture_blueprint/core/domain/model/editable_user_t
 import 'package:flutter_architecture_blueprint/core/util/alert_state.dart';
 import 'package:flutter_architecture_blueprint/feature/todo/task_list/task_list_contract.dart';
 import 'package:flutter_architecture_blueprint/feature/todo/task_list/task_list_notifier.dart';
+import 'package:flutter_architecture_blueprint/feature/todo/task_list/ui_components/task_list_placeholder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -75,6 +76,12 @@ class _TaskListBody extends HookConsumerWidget {
             value.taskList.where((t) => t.isCompleted),
           )),
     );
+
+    if (taskListCompleted.isEmpty && taskListNotCompleted.isEmpty) {
+      return const Center(
+        child: TaskListPlaceholder(),
+      );
+    }
 
     return CustomScrollView(
       slivers: [
