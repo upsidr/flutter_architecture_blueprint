@@ -27,11 +27,13 @@ class EditTaskNotifier extends _$EditTaskNotifier implements EditTaskContract {
 
   @override
   void consume() {
+    // Mark Effect as completed.
     _updateEffect(const EditTaskEffect.none());
   }
 
   @override
   Future<void> send(EditTaskAction action) async {
+    // Handling view events here.
     final item = state.item;
     switch (action) {
       case OnTitleChanged():

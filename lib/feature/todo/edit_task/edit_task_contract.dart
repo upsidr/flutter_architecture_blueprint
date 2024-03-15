@@ -5,6 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'edit_task_contract.freezed.dart';
 
+// Notifier must implement this.
 typedef EditTaskContract
     = BaseContract<EditTaskUiState, EditTaskAction, EditTaskEffect>;
 

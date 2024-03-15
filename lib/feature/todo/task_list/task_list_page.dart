@@ -12,6 +12,7 @@ import 'package:sliver_tools/sliver_tools.dart';
 
 import 'ui_components/task_list_item.dart';
 
+// Extension: Shorthand for Notifier
 extension _TaskListEx on WidgetRef {
   TaskListNotifier get notifier => read(taskListNotifierProvider.notifier);
 }
@@ -22,6 +23,7 @@ class TaskListPage extends HookConsumerWidget with AlertStateCompatible {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Handling effects here.
     ref.listen(taskListEffectProvider,
         (_, effect) => handleEffect(context, ref, effect: effect));
     useEffect(() {

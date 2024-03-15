@@ -5,6 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'task_list_contract.freezed.dart';
 
+// Notifier must implement this
 typedef TaskListContract
     = BaseContract<TaskListUiState, TaskListAction, TaskListEffect>;
 

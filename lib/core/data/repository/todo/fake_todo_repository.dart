@@ -6,6 +6,8 @@ import 'package:rxdart/subjects.dart';
 
 part 'fake_todo_repository.freezed.dart';
 
+// Test Double for TodoRepository
+// This Fake can override the behavior of all method calls.
 class FakeTodoRepository implements TodoRepository {
   const FakeTodoRepository._(this.fakeState, this.handler);
 

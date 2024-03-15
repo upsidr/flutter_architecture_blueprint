@@ -33,11 +33,13 @@ class TaskListNotifier extends _$TaskListNotifier implements TaskListContract {
 
   @override
   void consume() {
+    // Mark Effect as completed.
     _updateEffect(const TaskListEffect.none());
   }
 
   @override
   Future<void> send(TaskListAction action) async {
+    // Handling view events here.
     switch (action) {
       case OnAppear():
         try {
