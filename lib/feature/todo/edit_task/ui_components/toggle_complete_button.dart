@@ -19,13 +19,13 @@ class ToggleCompleteButton extends StatelessWidget {
       return TextButton(
         onPressed: () =>
             sendAction(const EditTaskAction.uncompleteButtonTapped()),
-        child: const Text('未完了とする', style: textStyle),
+        child: const Text('Mark as Uncompleted', style: textStyle),
       );
     } else {
       return TextButton(
         onPressed: () =>
             sendAction(const EditTaskAction.completeButtonTapped()),
-        child: const Text('完了とする', style: textStyle),
+        child: const Text('Mark as Completed', style: textStyle),
       );
     }
   }

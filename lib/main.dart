@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_architecture_blueprint/app_router.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 Future<void> main() async {
   await initializeDateFormatting();
-  Intl.defaultLocale = 'ja_JP';
 
   runApp(
     const ProviderScope(

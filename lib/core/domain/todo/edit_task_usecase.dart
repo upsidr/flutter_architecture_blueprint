@@ -54,8 +54,8 @@ class EditTaskUseCase {
   }
 
   AlertState _itemNotFoundState() =>
-      const AlertState.okDialog(message: 'タスクが見つかりませんでした');
-  AlertState _sampleErrorState() => const AlertState.okDialog(message: 'エラー');
+      const AlertState.okDialog(message: 'Not found');
+  AlertState _sampleErrorState() => const AlertState.okDialog(message: 'Error');
 }
 
 @freezed

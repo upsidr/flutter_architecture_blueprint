@@ -34,17 +34,15 @@ class EditTaskNotifier extends _$EditTaskNotifier implements EditTaskContract {
   @override
   Future<void> send(EditTaskAction action) async {
     // Handling view events here.
-    final item = state.item;
     switch (action) {
       case OnTitleChanged():
-        state = state.copyWith(item: item.copyWith(title: action.newValue));
+        state = state.copyWith.item(title: action.newValue);
       case OnDescriptionChanged():
-        state =
-            state.copyWith(item: item.copyWith(description: action.newValue));
+        state = state.copyWith.item(description: action.newValue);
       case CompleteButtonTapped():
-        state = state.copyWith(item: item.copyWith(isCompleted: true));
+        state = state.copyWith.item(isCompleted: true);
       case UncompleteButtonTapped():
-        state = state.copyWith(item: item.copyWith(isCompleted: false));
+        state = state.copyWith.item(isCompleted: false);
       case AddButtonTapped():
         assert(state.isSubmitButtonEnabled);
         assert(state.isNewTask);
@@ -57,7 +55,7 @@ class EditTaskNotifier extends _$EditTaskNotifier implements EditTaskContract {
       case UpdateButtonTapped():
         assert(state.isSubmitButtonEnabled);
         assert(!state.isNewTask);
-        final taskWithUpdatedAt = item.copyWith(updatedAt: clock.now());
+        final taskWithUpdatedAt = state.item.copyWith(updatedAt: clock.now());
         try {
           await _editTaskUseCase.updateTask(taskWithUpdatedAt);
           _updateEffect(const EditTaskEffect.close());

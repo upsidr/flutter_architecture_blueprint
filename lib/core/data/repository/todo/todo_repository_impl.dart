@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter_architecture_blueprint/core/data/network/fake_todo_api_client.dart';
 import 'package:flutter_architecture_blueprint/core/data/repository/todo/todo_repository.dart';
 import 'package:flutter_architecture_blueprint/core/model/user_task.dart';
+import 'package:flutter_architecture_blueprint/core/util/stream_extensions.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:rxdart/subjects.dart';
 
@@ -32,7 +33,7 @@ class TodoRepositoryImpl implements TodoRepository {
   Future<void> addTask({required UserTask task}) async {
     try {
       await _apiClient.postTask(task: task);
-      _taskList.add(_taskList.value.appending(task));
+      _taskList.update((value) => value.appending(task));
     } on Exception catch (e) {
       throw TodoRepositoryException.other(e);
     }
@@ -45,7 +46,7 @@ class TodoRepositoryImpl implements TodoRepository {
     }
     try {
       await _apiClient.patchTask(task: task);
-      _taskList.add(_taskList.value.replaced(task));
+      _taskList.update((value) => value.replaced(task));
     } on Exception catch (e) {
       throw TodoRepositoryException.other(e);
     }
@@ -58,7 +59,7 @@ class TodoRepositoryImpl implements TodoRepository {
     }
     try {
       await _apiClient.deleteTask(id: id);
-      _taskList.add(_taskList.value.deletedBy(id));
+      _taskList.update((value) => value.deletedBy(id));
     } on Exception catch (e) {
       throw TodoRepositoryException.other(e);
     }

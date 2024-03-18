@@ -5,6 +5,7 @@ import 'package:flutter_architecture_blueprint/core/domain/model/editable_user_t
 import 'package:flutter_architecture_blueprint/core/util/alert_state.dart';
 import 'package:flutter_architecture_blueprint/feature/todo/task_list/task_list_contract.dart';
 import 'package:flutter_architecture_blueprint/feature/todo/task_list/task_list_notifier.dart';
+import 'package:flutter_architecture_blueprint/feature/todo/task_list/ui_components/task_list_placeholder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -34,7 +35,7 @@ class TaskListPage extends HookConsumerWidget with AlertStateCompatible {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ToDo リスト'),
+        title: const Text('ToDo'),
         centerTitle: true,
       ),
       body: const _TaskListBody(),
@@ -76,6 +77,12 @@ class _TaskListBody extends HookConsumerWidget {
           )),
     );
 
+    if (taskListCompleted.isEmpty && taskListNotCompleted.isEmpty) {
+      return const Center(
+        child: TaskListPlaceholder(),
+      );
+    }
+
     return CustomScrollView(
       slivers: [
         // not completed
@@ -98,7 +105,7 @@ class _TaskListBody extends HookConsumerWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(
-                '完了 (${taskListCompleted.length}件)',
+                '${taskListCompleted.length} Completed',
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
             ),

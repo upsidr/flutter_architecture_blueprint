@@ -79,7 +79,7 @@ class _EditTaskPage extends HookConsumerWidget with AlertStateCompatible {
                       .send(const EditTaskAction.updateButtonTapped())
                   : null,
               child: const Text(
-                '保存',
+                'Save',
                 style: TextStyle(fontWeight: FontWeight.w600),
               ),
             ),
@@ -91,7 +91,7 @@ class _EditTaskPage extends HookConsumerWidget with AlertStateCompatible {
                       ref.notifier.send(const EditTaskAction.addButtonTapped())
                   : null,
               child: const Text(
-                '追加',
+                'Add',
                 style: TextStyle(fontWeight: FontWeight.w600),
               ),
             ),
@@ -147,7 +147,7 @@ class _EditTaskBody extends HookConsumerWidget {
                   ref.notifier.send(EditTaskAction.onTitleChanged(newValue));
                 },
                 style: Theme.of(context).textTheme.titleLarge,
-                hintText: 'タイトルを入力',
+                hintText: 'Title',
               ),
 
               // Description
@@ -160,7 +160,7 @@ class _EditTaskBody extends HookConsumerWidget {
                     ref.notifier
                         .send(EditTaskAction.onDescriptionChanged(newValue));
                   },
-                  hintText: '詳細を入力',
+                  hintText: 'Description',
                 ),
               ),
 

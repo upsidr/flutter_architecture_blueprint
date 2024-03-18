@@ -33,8 +33,11 @@ class TaskListItem extends StatelessWidget {
       ),
       child: InkWell(
         onTap: () => sendAction(TaskListAction.taskTapped(item)),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          decoration: const BoxDecoration(
+            border: Border(bottom: BorderSide(color: Colors.grey)),
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
