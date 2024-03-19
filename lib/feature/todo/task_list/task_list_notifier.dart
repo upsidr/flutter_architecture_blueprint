@@ -47,16 +47,20 @@ class TaskListNotifier extends _$TaskListNotifier implements TaskListContract {
         } on task_list.Alert catch (e) {
           _updateEffect(TaskListEffect.showAlert(state: e.state));
         }
+
       case NewTaskButtonTapped():
         _updateEffect(const TaskListEffect.goDetail(task: null));
+
       case TaskTapped():
         _updateEffect(TaskListEffect.goDetail(task: action.task));
+
       case ToggleIsCompleted():
         try {
           await _editTaskUseCase.toggleIsCompleted(action.task);
         } on edit_task.Alert catch (e) {
           _updateEffect(TaskListEffect.showAlert(state: e.state));
         }
+
       case OnTaskSwiped():
         try {
           await _editTaskUseCase.deleteTask(id: action.task.id);

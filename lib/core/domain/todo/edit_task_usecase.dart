@@ -59,7 +59,9 @@ class EditTaskUseCase {
 }
 
 @freezed
-sealed class EditTaskUseCaseException with _$EditTaskUseCaseException {
+sealed class EditTaskUseCaseException
+    with _$EditTaskUseCaseException
+    implements Exception {
   const factory EditTaskUseCaseException.alert({
     required AlertState state,
   }) = Alert;

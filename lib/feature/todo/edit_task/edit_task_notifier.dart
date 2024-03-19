@@ -10,8 +10,7 @@ import 'edit_task_contract.dart';
 part 'edit_task_notifier.g.dart';
 
 final editTaskArgsProvider =
-    StateProvider<EditableUserTask>((_) => throw UnimplementedError());
-
+    StateProvider<EditableUserTask>((ref) => throw UnimplementedError());
 final editTaskEffectProvider =
     StateProvider((ref) => const EditTaskEffect.none());
 
@@ -37,12 +36,16 @@ class EditTaskNotifier extends _$EditTaskNotifier implements EditTaskContract {
     switch (action) {
       case OnTitleChanged():
         state = state.copyWith.item(title: action.newValue);
+
       case OnDescriptionChanged():
         state = state.copyWith.item(description: action.newValue);
+
       case CompleteButtonTapped():
         state = state.copyWith.item(isCompleted: true);
+
       case UncompleteButtonTapped():
         state = state.copyWith.item(isCompleted: false);
+
       case AddButtonTapped():
         assert(state.isSubmitButtonEnabled);
         assert(state.isNewTask);
@@ -52,6 +55,7 @@ class EditTaskNotifier extends _$EditTaskNotifier implements EditTaskContract {
         } on edit_task.Alert catch (e) {
           _updateEffect(EditTaskEffect.showAlert(state: e.state));
         }
+
       case UpdateButtonTapped():
         assert(state.isSubmitButtonEnabled);
         assert(!state.isNewTask);
@@ -62,6 +66,7 @@ class EditTaskNotifier extends _$EditTaskNotifier implements EditTaskContract {
         } on edit_task.Alert catch (e) {
           _updateEffect(EditTaskEffect.showAlert(state: e.state));
         }
+
       case DeleteButtonTapped():
         assert(!state.isNewTask);
         try {

@@ -11,7 +11,7 @@ final todoRepositoryProvider = Provider<TodoRepository>(
 );
 
 class TodoRepositoryImpl implements TodoRepository {
-  TodoRepositoryImpl(FakeTodoApiClient apiClient) : _apiClient = apiClient;
+  TodoRepositoryImpl(this._apiClient);
 
   final FakeTodoApiClient _apiClient;
   final _taskList = BehaviorSubject<List<UserTask>>.seeded([]);

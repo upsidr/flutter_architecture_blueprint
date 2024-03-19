@@ -34,7 +34,9 @@ class TaskListUseCase {
 }
 
 @freezed
-sealed class TaskListUseCaseException with _$TaskListUseCaseException {
+sealed class TaskListUseCaseException
+    with _$TaskListUseCaseException
+    implements Exception {
   const factory TaskListUseCaseException.alert({
     required AlertState state,
   }) = Alert;
