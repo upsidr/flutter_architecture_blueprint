@@ -1,7 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter_architecture_blueprint/core/data/repository/todo/fake_todo_repository.dart';
 import 'package:flutter_architecture_blueprint/core/data/repository/todo/todo_repository.dart';
-import 'package:flutter_architecture_blueprint/core/data/repository/todo/todo_repository_impl.dart';
 import 'package:flutter_architecture_blueprint/core/domain/model/editable_user_task.dart';
 import 'package:flutter_architecture_blueprint/core/model/user_task.dart';
 import 'package:flutter_architecture_blueprint/core/util/alert_state.dart';

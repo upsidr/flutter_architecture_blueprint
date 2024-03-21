@@ -1,6 +1,5 @@
 import 'package:flutter_architecture_blueprint/core/data/repository/todo/todo_repository.dart'
     as todo_repository;
-import 'package:flutter_architecture_blueprint/core/data/repository/todo/todo_repository_impl.dart';
 import 'package:flutter_architecture_blueprint/core/domain/model/editable_user_task.dart';
 import 'package:flutter_architecture_blueprint/core/util/alert_state.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -9,7 +8,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'task_list_usecase.freezed.dart';
 
 final taskListUseCaseProvider = Provider.autoDispose((ref) {
-  return TaskListUseCase(ref.watch(todoRepositoryProvider));
+  return TaskListUseCase(ref.watch(todo_repository.todoRepositoryProvider));
 });
 
 class TaskListUseCase {
