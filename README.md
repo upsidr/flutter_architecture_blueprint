@@ -9,7 +9,7 @@ Detailed explanations and background information are provided in the related art
 
 ## Demo
 
-<< Sample Web App URL >>
+https://upsidr.github.io/flutter_architecture_blueprint/
 
 ## Overview
 

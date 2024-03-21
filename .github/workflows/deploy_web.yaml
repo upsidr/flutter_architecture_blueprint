@@ -1,0 +1,22 @@
+name: CD web
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: wasabeef/import-asdf-tool-versions-action@v1.0.1
+        id: asdf
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ steps.asdf.outputs.flutter }}
+      - uses: erickzanardo/flutter-gh-pages@v7
+        with:
+          basehref: /flutter_architecture_blueprint/
+          customArgs: -t lib/main_device_preview.dart
