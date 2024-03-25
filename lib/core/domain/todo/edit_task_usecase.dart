@@ -1,6 +1,5 @@
 import 'package:flutter_architecture_blueprint/core/data/repository/todo/todo_repository.dart'
     as todo_repository;
-import 'package:flutter_architecture_blueprint/core/data/repository/todo/todo_repository_impl.dart';
 import 'package:flutter_architecture_blueprint/core/domain/model/editable_user_task.dart';
 import 'package:flutter_architecture_blueprint/core/util/alert_state.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -10,7 +9,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'edit_task_usecase.freezed.dart';
 
 final editTaskUseCaseProvider = Provider.autoDispose((ref) {
-  return EditTaskUseCase(ref.watch(todoRepositoryProvider));
+  return EditTaskUseCase(ref.watch(todo_repository.todoRepositoryProvider));
 });
 
 class EditTaskUseCase {
@@ -59,7 +58,9 @@ class EditTaskUseCase {
 }
 
 @freezed
-sealed class EditTaskUseCaseException with _$EditTaskUseCaseException {
+sealed class EditTaskUseCaseException
+    with _$EditTaskUseCaseException
+    implements Exception {
   const factory EditTaskUseCaseException.alert({
     required AlertState state,
   }) = Alert;

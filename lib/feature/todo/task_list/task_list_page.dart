@@ -55,9 +55,11 @@ class TaskListPage extends HookConsumerWidget with AlertStateCompatible {
     switch (effect) {
       case None():
         break;
+
       case GoDetail():
         ref.notifier.consume();
         context.router.push(EditTaskRoute(task: effect.task));
+
       case ShowAlert():
         ref.notifier.consume();
         handleAlertState(context, effect.state);

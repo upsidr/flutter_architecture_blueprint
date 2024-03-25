@@ -109,9 +109,11 @@ class _EditTaskPage extends HookConsumerWidget with AlertStateCompatible {
     switch (effect) {
       case None():
         break;
+
       case Close():
         ref.notifier.consume();
         context.router.back();
+
       case ShowAlert():
         ref.notifier.consume();
         handleAlertState(context, effect.state);
