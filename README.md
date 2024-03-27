@@ -97,8 +97,7 @@ test('Tap NewTaskButton, navigate detail', () async {
 │   │           ├── fake_todo_repository.dart
 │   │           ├── fake_todo_repository.freezed.dart
 │   │           ├── todo_repository.dart
-│   │           ├── todo_repository.freezed.dart
-│   │           └── todo_repository_impl.dart
+│   │           └── todo_repository.freezed.dart
 │   ├── domain
 │   │   ├── model
 │   │   │   ├── editable_user_task.dart
@@ -136,7 +135,8 @@ test('Tap NewTaskButton, navigate detail', () async {
 │           ├── task_list_notifier.g.dart
 │           ├── task_list_page.dart
 │           └── ui_components
-│               └── task_list_item.dart
+│               ├── task_list_item.dart
+│               └── task_list_placeholder.dart
 ├── main.dart
 └── main_device_preview.dart
 ```
