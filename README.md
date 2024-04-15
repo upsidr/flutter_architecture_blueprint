@@ -5,7 +5,8 @@
 **flutter_architecture_blueprint is a flutter project that demonstrates a three layers architecture in the form of ToDo app.**
 
 Detailed explanations and background information are provided in the related article on our technical blog.
-👉 << Article URL >>
+
+👉 https://tech.up-sider.com/entry/2024/04/15/110000
 
 ## Demo
 
